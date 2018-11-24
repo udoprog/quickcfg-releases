@@ -1,0 +1,25 @@
+language: rust
+dist: trusty
+cache: cargo
+branches:
+  except:
+  - master
+os:
+- linux
+- osx
+rust:
+- nightly
+script:
+- "./build.sh"
+deploy:
+  provider: gcs
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: udoprog/quickcfg-releases
+  bucket: quickcfg-releases
+  local-dir: target/upload
+  secret_access_key:
+    secure: JSQUzyb+oL4/UbcH3ikjeQ8hDpp8BWkuZQ7nR9IzY0VL3ERy9pc2OPgUQgT1+5Zwzmb0ocEbdoFd5Mxj9Xk6L4+hZsuVej5dT6Dm7bRlR7G8FdQzDPTZ/h2PyhYh1SJ/80LjdPQRIGxwzLbRsbLRsuXdHzUwdypgXq4Hiq0hpO7pIJGfm0PH3d18FldMBFCIEu9YAtGC1+xlPimxX5GP8G9AuQi4pPbXcLgzaGNcZzOI0uGivyX7B439j93GpwIQw2IkTmlyHWLOOs5oNXUQgD5PX+ARxKiwNB19Vyd+c2o0YSclLxjmDiigP0TfZkLcQucSsT4TuSGt8/K5WW8exHdnqv1rOiTvuEPKUGXCuNjwpDOxvR9PJApNCmmLr0njoR4Vw0B+4OlJXutviOBeaq/3AYCnfUWqWHYMwfYC4oqOQO4jpue9o+RfzKaTHMLgfscsQl/2SNvhWdm8OC7OftJUa1ppQnuorRD79/K5j9x2Yscj6JNGdXl1dfeXxoSEWoxWxPbW8RGiIdGtFP66i2f5DhEOq4VFORKvwR9ni4cjP3dYqtpZ+AEhc8jGPbR6/oNrU88naXhgH+E/0g6+E8xjIIERMcGOInxRI2TlO3/L/WlaHPo3ovzZ0slAD0VmgJDexdeqgfuj/jYaxmlYVCcobPRgy0WX1MHxVnRMAQA=
+  access_key_id:
+    secure: sd1kMFdreArAzGQHmCGMB4QqpPMhJVuMVVumyti2BJXvC4g0Cw5g+8LlCgOMyJ6iU308KCBEDGZ168+6A4lzy5GH2uRGgfgKP80lHv/DSoXGQOAjTIpu08PzGt0jHG8uSI5PSmuHZfrfGzm60qyYFHY0U3Wu4emB6BpwStH+1UB9ZIta6B+d48rWMMNP6oQ5k4XlKPy5aiGJEbalgH5t89UmAHABR0IzwQuzXZ24FVCdS0DMYWwqJgwgDOBDkbYkrdI2k8mxOgS1yK0T2qlu02221ohtK5zKE2mVHXH/HSBiLV/lYIUoh57+NcqlenfLYFE/FhZKKaCoT6VWi9HspdmGQt8u8hF3YweUGWpzyWJB8JngrjpgMtb2T8MwWFjpx5r41nm82LvZXaWhND1+YZBol6M8C8ptCEyrfyINVqcAuVU/AJRh5XyUwEdYb5nvCE+Wmyp9yZuitXzi17OTGQDpOu63/6CL6+MzkF8cFsCCaGTWJB99tU2qtI9c7esl2sde5iVQXgB1H2QoYeuKuFX3DkPdG0YAqbimecX25YMA23K1pjBDyY6Y2FrC81qe7mc5yqxUbJF+EsyaWblWKzfb/CclVSOh3QmqfxBsE/i0XBs7wfAty+mSsp1v3/MHm9r2D2hJfKDoGHgHknJyxoWNOZuEuHceSrnvgAFmQ7A=
