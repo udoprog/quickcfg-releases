@@ -1,0 +1,10 @@
+[package]
+name = "pack"
+version = "0.1.0"
+authors = ["John-John Tedro <udoprog@tedro.se>"]
+edition = "2018"
+
+[dependencies]
+zip = "0.5"
+tar = "0.4"
+flate2 = "1.0"

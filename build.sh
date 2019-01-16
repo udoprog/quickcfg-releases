@@ -7,16 +7,23 @@ if [[ -z $TRAVIS_OS_NAME ]]; then
     exit 1
 fi
 
+pack="cargo run --manifest-path=$PWD/tools/pack/Cargo.toml --"
 osname=$TRAVIS_OS_NAME
 arch=$(uname -m)
 target_dir=$PWD/target
-target_bin=$target_dir/bin/qc
-ext=tar.gz
 
-if [[ $TRAVIS_OS_NAME == "windows" ]]; then
-    apt-get install -y zip
+case $TRAVIS_OS_NAME in
+"windows")
     ext=zip
-fi
+    bin=qc.exe
+    ;;
+*)
+    ext=tar.gz
+    bin=qc
+    ;;
+esac
+
+target_bin="$target_dir/bin/${bin}"
 
 if [[ -z $arch ]]; then
     echo "arch: missing"
@@ -42,21 +49,6 @@ if [[ ! -f $target_bin ]]; then
     exit 1
 fi
 
-mkdir -p $(dirname $archive)
-
-pushd $(dirname $target_bin)
-
-case $ext in
-"tar.gz")
-    tar -cvzf $archive qc
-    ;;
-"zip")
-    zip $archive qc
-    ;;
-*)
-    echo "Bad extension: $ext"
-    exit 1
-    ;;
-esac
-
+cd $(dirname $target_bin)
+$pack $archive $bin
 exit 0
