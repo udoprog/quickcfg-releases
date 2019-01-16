@@ -10,7 +10,13 @@ fi
 osname=$TRAVIS_OS_NAME
 arch=$(uname -m)
 target_dir=$PWD/target
-target_bin=$target_dir/bin/quickcfg
+target_bin=$target_dir/bin/qc
+ext=tar.gz
+
+if [[ $TRAVIS_OS_NAME == "windows" ]]; then
+    apt-get install -y zip
+    ext=zip
+fi
 
 if [[ -z $arch ]]; then
     echo "arch: missing"
@@ -24,7 +30,7 @@ if [[ -z $version ]]; then
     exit 1
 fi
 
-archive=$PWD/target/upload/quickcfg-${version}-${osname}-${arch}.tar.gz
+archive=$PWD/target/upload/quickcfg-${version}-${osname}-${arch}.${ext}
 
 # build if not bin
 if [[ ! -f $target_bin ]]; then
@@ -39,7 +45,18 @@ fi
 mkdir -p $(dirname $archive)
 
 pushd $(dirname $target_bin)
-tar -cvzf $archive quickcfg
-popd
+
+case $ext in
+"tar.gz")
+    tar -cvzf $archive qc
+    ;;
+"zip")
+    zip $archive qc
+    ;;
+*)
+    echo "Bad extension: $ext"
+    exit 1
+    ;;
+esac
 
 exit 0
